@@ -1,16 +1,14 @@
-import os
-from http.server import BaseHTTPRequestHandler, HTTPServer
+def app(environ, start_response):
+    start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
 
-class Handler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header("Content-type", "text/html")
-        self.end_headers()
-        self.wfile.write("Application deployee sur Render sans Flask 🚀")
+    html = """
+    <html>
+    <head><title>Cloud App</title></head>
+    <body>
+        <h1>Application deployee sur Render 🚀</h1>
+        <p>Serveur Python sans Flask fonctionne correctement.</p>
+    </body>
+    </html>
+    """
 
-port = int(os.environ.get("PORT", 10000))  # Render fournit PORT
-
-server = HTTPServer(("0.0.0.0", port), Handler)
-
-print(f"Server running on port {port}")
-server.serve_forever()
+    return [html.encode("utf-8")]
